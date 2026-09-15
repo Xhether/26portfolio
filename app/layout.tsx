@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
-import Nav from "@/components/Nav";
+import { Nunito_Sans, Schoolbell } from "next/font/google";
+import RoughFilter from "@/components/RoughFilter";
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+// Schoolbell ships a single weight, so it has to be declared explicitly.
+const schoolbell = Schoolbell({
+  variable: "--font-schoolbell",
   subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+
+// Nunito Sans is variable, so the weight range comes along for free.
+const nunito = Nunito_Sans({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Charles Liggins",
-  description: "Personal site of Charles Liggins.",
+  description:
+    "A human driven to build efficient, accessible software that people actually love.",
 };
 
 export default function RootLayout({
@@ -19,12 +30,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${jetbrainsMono.variable} antialiased`}>
-      <body className="min-h-screen">
-        <Nav />
-        <main className="px-6 sm:px-12 py-8 pr-32 sm:pr-48 max-w-6xl">
-          {children}
-        </main>
+    <html
+      lang="en"
+      className={`${schoolbell.variable} ${nunito.variable} antialiased`}
+    >
+      <body className="overflow-x-hidden bg-paper text-ink">
+        <RoughFilter />
+        {children}
       </body>
     </html>
   );
