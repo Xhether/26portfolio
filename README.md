@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Personal site for Charles Liggins, built from the
+[Figma design](https://www.figma.com/design/7Hp2L2twe5tMTcF7sYAFgW/portfolio?node-id=231-96).
+Next.js 16 (App Router, Turbopack) and Tailwind CSS v4, prerendered as a single
+static page.
 
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Layout of the code
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Path | What's in it |
+| --- | --- |
+| `app/page.tsx` | Composes the three sections |
+| `app/globals.css` | Design tokens plus the work-experience scatter rules |
+| `components/Hero.tsx` | Intro copy, portrait and the hand-drawn marks |
+| `components/WorkExperience.tsx` | The three tilted role cards |
+| `components/Projects.tsx` | Project carousel (the only client component) |
+| `components/RoughFilter.tsx` | SVG filter that roughens card borders |
+| `lib/data.ts` | All copy, links and image references |
+| `assets/` | Images, statically imported so `next/image` infers dimensions |
+| `public/doodles/` | Decorative SVGs, served as-is |
 
-## Learn More
+Content lives in `lib/data.ts` — edit the `jobs` and `projects` arrays to change
+what the page says. Nothing is fetched at runtime.
 
-To learn more about Next.js, take a look at the following resources:
+## How the design translates
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Figma file is a fixed 1512×2951 canvas of absolutely positioned, rotated
+layers. Two ideas carry that to the browser:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Percentage stages.** The work-experience section and the hero portrait each
+  become a fixed-aspect-ratio box whose children are placed by percentage, so
+  the arrangement scales instead of reflowing. Below `lg` the work cards drop
+  out of that stage and stack, at half tilt so corners stay on screen.
+- **Roughened borders.** Cards in the design have a hand-drawn stroke rather
+  than a clean rectangle. A turbulence filter displaces a bare border element
+  layered over each image, leaving the artwork itself sharp.
+- **A carousel measured in `cqw`.** The featured panel is a CSS container, and
+  the borders, gaps and padding inside it are sized in `cqw` — 1% of the panel's
+  own width. Fixed pixel borders don't scale with the panel, so at some browser
+  zoom levels the three Resell phones no longer fit and were clipped; in
+  container units the layout is identical at every zoom level.
 
-## Deploy on Vercel
+- **A liquid-glass slab.** The featured panel is frosted rather than flat: a
+  `backdrop-filter` blur with a specular gradient, a lit rim and inset edge
+  highlights. The peek thumbnails sit behind it in the same stacking context,
+  so they blur and refract through the glass instead of being flatly covered.
+  A `@supports` fallback keeps the design's solid slab where `backdrop-filter`
+  is unavailable.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> **Careful with `backdrop-filter`.** Author it *unprefixed only*. If you also
+> hand-write `-webkit-backdrop-filter`, Lightning CSS (which Turbopack uses)
+> drops the standard property and emits just the prefixed one, and the effect
+> silently stops working. Left alone it emits both prefixes itself.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Only the out-of-frame projects are dimmed, via `brightness(0.55)` on the peek
+thumbnails. The images in `assets/projects/` are the **undimmed originals**
+pulled from Figma with `download_assets` — the copies that `get_design_context`
+hands back already have the design's dimming baked in, so re-exporting that way
+would make the featured project look washed out.
+
+## Checks
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
