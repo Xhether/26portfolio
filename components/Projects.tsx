@@ -22,7 +22,7 @@ const peeks = [
  * viewport edge and ignore the stage's own horizontal padding.
  */
 const arrowClasses =
-  "absolute top-1/2 z-20 flex h-[clamp(72px,17%,139px)] w-[clamp(32px,3.4%,48px)] -translate-y-1/2 items-center justify-center rounded-[12px] border-4 border-ink bg-paper transition hover:bg-tag-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  "absolute top-1/2 z-20 flex h-[clamp(4.5rem,17%,8.7rem)] w-[clamp(2rem,3.4%,3rem)] -translate-y-1/2 items-center justify-center rounded-[12px] border-4 border-ink bg-paper transition hover:bg-tag-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 export default function Projects() {
   const [index, setIndex] = useState(
@@ -39,9 +39,10 @@ export default function Projects() {
         Projects
       </h2>
 
-      {/* Capped a little under the 1432-wide Figma stage so the carousel stays
-          a component on the page rather than taking over a wide monitor. */}
-      <div className="relative mx-auto mt-12 w-full max-w-[1400px] px-4 sm:px-6">
+      {/* Tracks the viewport rather than capping at the 1432-wide Figma stage,
+          so the carousel keeps pace with the rest of the page on a big
+          display. The ceiling only stops it running away on an ultrawide. */}
+      <div className="relative mx-auto mt-12 w-full max-w-[min(94vw,2000px)] px-4 sm:px-6">
         {/* Neighbouring projects, tucked behind the featured panel. */}
         {peeks.map((peek) => {
           const project = projects[wrap(index + peek.offset)];
@@ -152,7 +153,7 @@ export default function Projects() {
 
       {/* Details for whichever project is in focus. */}
       <div
-        className="mx-auto mt-10 w-full max-w-[955px] px-6"
+        className="mx-auto mt-10 w-full max-w-[60rem] px-6"
         aria-live="polite"
       >
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">

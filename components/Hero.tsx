@@ -18,9 +18,10 @@ const doodles = [
 
 export default function Hero() {
   return (
-    <section className="mx-auto w-full max-w-[1280px] px-6 pt-20 sm:px-10 md:pt-28 lg:px-16">
+    <section className="mx-auto w-full max-w-[min(92vw,1900px)] px-6 pt-20 sm:px-10 md:pt-28 lg:px-16">
       <div className="grid items-center gap-14 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
-        <div className="max-w-[658px]">
+        {/* In rem so the measure holds a steady character count as type grows. */}
+        <div className="max-w-[41rem]">
           <h1 className="font-hand text-[clamp(2.5rem,7vw,4rem)] leading-none">
             I&rsquo;m Charles,
           </h1>
@@ -35,13 +36,20 @@ export default function Hero() {
               I currently work at{" "}
               <a
                 className="underline decoration-from-font underline-offset-2 hover:opacity-70"
+                href="#work"
+              >
+                Nowadays
+              </a>{" "}
+              and previously interned at{" "}
+              <a
+                className="underline decoration-from-font underline-offset-2 hover:opacity-70"
                 href="https://onme.com"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 On Me
               </a>{" "}
-              and previously interned at{" "}
+              and{" "}
               <a
                 className="underline decoration-from-font underline-offset-2 hover:opacity-70"
                 href="#work"
@@ -55,7 +63,7 @@ export default function Hero() {
         </div>
 
         {/* Portrait box. The photo is tilted inside it; the doodles are not. */}
-        <div className="relative mx-auto aspect-[483.942/560.676] w-[min(78vw,400px)] md:mx-0 md:w-[min(34vw,484px)]">
+        <div className="relative mx-auto aspect-[483.942/560.676] w-[min(78vw,25rem)] md:mx-0 md:w-[min(34vw,34rem)]">
           <Image
             src={portrait}
             alt="Charles Liggins"

@@ -36,7 +36,7 @@ export default function WorkExperience() {
         Work Experience
       </h2>
 
-      <div className="work-scatter mx-auto mt-14 w-full max-w-[1512px] px-6 sm:px-10 lg:mt-8 lg:px-0">
+      <div className="work-scatter mx-auto mt-14 w-full max-w-[min(96vw,2100px)] px-6 sm:px-10 lg:mt-8 lg:px-0">
         {jobs.map((job, index) => {
           const { card, label } = layout[index];
 

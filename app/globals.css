@@ -19,6 +19,21 @@
   --color-panel: rgba(97, 96, 86, 0.5);
 }
 
+html {
+  /*
+   * The single lever that makes the page grow on large displays.
+   *
+   * Every type clamp, Tailwind spacing step and container width below is
+   * expressed in rem, so raising the root size enlarges the whole page
+   * proportionally rather than stranding a fixed-width column in the middle of
+   * a wide screen. The curve resolves to exactly 1rem at ~1440px, so anything
+   * at or below a laptop is untouched, and only grows from there. Stated in
+   * rem rather than px so a viewer's own browser font-size setting still
+   * applies.
+   */
+  font-size: clamp(1rem, 0.5vw + 0.55rem, 1.35rem);
+}
+
 html,
 body {
   background: var(--color-paper);
